@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подсчёт фруктов</title>
+</head>
+<body>
+    <h2>Загрузка изображения для подсчёта фруктов</h2>
+    <input type="file" id="imageInput">
+    <button onclick="processImage()">Запустить обработку</button>
+    <br><br>
+    <img id="resultImage" src="" width="500">
+    <div id="stats"></div>
+    <script>
+        async function processImage() {
+            const file = document.getElementById('imageInput').files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            const response = await fetch('/process', { method: 'POST', body: formData });
+            const data = await response.json();
+            document.getElementById('resultImage').src = 'static/result.jpg?' + Date.now();
+            document.getElementById('stats').innerText = `Обнаружено объектов: ${data.count}`;
+        }
+    </script>
+</body>
+</html>
